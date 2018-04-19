@@ -16,6 +16,8 @@ class FormType extends AbstractType
         $typeMapping = [
             'text'              => Types\TextType::class,     // subtype
             'email'             => Types\EmailType::class,    // subtype
+            'textarea'          => Types\TextareaType::class,
+            'number'            => Types\NumberType::class,
             'select'            => Types\ChoiceType::class,
             'checkbox-group'    => Types\ChoiceType::class,
             'radio-group'       => Types\ChoiceType::class,
@@ -66,8 +68,17 @@ class FormType extends AbstractType
 
             $field = $builder->get($json['name']);
 
-            if (!empty($json['maxlength'])) {
-                $options['constraints'][] = new Assert\Length(['max' => $json['maxlength']]);
+            if (!empty($json['maxlength']) || !empty($json['minlength'])) {
+                $max = (!empty($json['maxlength']) ? $json['maxlength'] : null);
+                $min = (!empty($json['minlength']) ? $json['minlength'] : null);
+
+                $options['constraints'][] = new Assert\Length(['max' => $max, 'min' => $min]);
+            }
+            if (!empty($json['max']) || !empty($json['min'])) {
+                $max = (!empty($json['max']) ? $json['max'] : null);
+                $min = (!empty($json['min']) ? $json['min'] : null);
+
+                $options['constraints'][] = new Assert\Range(['max' => $max, 'min' => $min]);
             }
             if ($field->hasOption('required')) {
                 $options['required'] = false;
@@ -80,6 +91,9 @@ class FormType extends AbstractType
                 $options['attr'] = [
                     'class' => $json['className']
                 ];
+            }
+            if (!empty($json['value'])) {
+                $options['data'] = isset($buildOptions['data']) ? $buildOptions['data'][$json['name']] : $json['value'];
             }
             if (!empty($json['placeholder'])) {
                 if ($field->hasOption('placeholder')) {
@@ -98,7 +112,7 @@ class FormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-//            'empty_data' => ['text-1523427016520' => 'test','checkbox-group-1523426964534'],
+//            'empty_data' => ['number-1524133264120' => 10],
             'formEntity' => new Form(),
         ));
     }

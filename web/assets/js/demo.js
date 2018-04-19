@@ -1,13 +1,4 @@
 jQuery(function($) {
-    var replaceFields = [
-        {
-            type: 'textarea',
-            subtype: 'tinymce',
-            label: 'tinyMCE',
-            required: true,
-        }
-    ];
-
     var typeUserDisabledAttrs = {
         autocomplete: ['access']
     };
@@ -27,7 +18,7 @@ jQuery(function($) {
     };
 
     // test disabledAttrs
-    var disabledAttrs = ['placeholder'];
+    var disabledAttrs = ['access', 'description', 'toggle', 'inline', 'other'];
 
     var fbOptions = {
         subtypes: {
@@ -48,15 +39,14 @@ jQuery(function($) {
         typeUserAttrs: typeUserAttrs,
         disableInjectedStyle: false,
         disableFields: ['autocomplete'],
-        replaceFields: replaceFields,
         disabledFieldButtons: {
             text: ['copy']
         },
         i18n: {
             'locale': 'de-DE'
-        }
+        },
         // controlPosition: 'left'
-        // disabledAttrs
+        disabledAttrs
     };
     var formData = window.sessionStorage.getItem('formData');
     var editing = true;
