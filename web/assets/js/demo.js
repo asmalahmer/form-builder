@@ -95,6 +95,10 @@ jQuery(function($) {
         document.getElementById('getJSON').addEventListener('click', function() {
             sendJsonForm(formBuilder.actions.getData('json'));
         });
+
+        if (formData) {
+            fb.actions.setData(formData);
+        }
     });
 
     document.getElementById('edit-form').onclick = function() {

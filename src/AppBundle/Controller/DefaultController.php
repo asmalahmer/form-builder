@@ -17,9 +17,24 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        return $this->redirect($this->generateUrl('builder'));
+    }
+
+    /**
+     * @Route("/builder/", name="builder")
+     */
+    public function builderAction(Request $request)
+    {
+        return $this->render('default/builder.html.twig', []);
+    }
+
+    /**
+     * @Route("/builder/{id}", name="builderForm")
+     */
+    public function builderFormAction(Form $formEntity, Request $request)
+    {
+        return $this->render('default/builder.html.twig', [
+            'formEntity' => $formEntity
         ]);
     }
 

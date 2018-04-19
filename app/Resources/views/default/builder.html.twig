@@ -27,7 +27,14 @@
 
 {% block javascripts %}
     <script>
-        var urlApiSaveForm = "{{ path('apiSaveForm') }}";
+        var urlApiSaveForm = "{{ path('apiSaveForm') }}",
+            id = null,
+            formData = null;
+
+        {% if formEntity is defined %}
+            id = {{ formEntity.id }};
+            formData = {{ formEntity.json|json_encode()|raw }};
+        {% endif %}
     </script>
     <script src="{{ asset('assets/js/vendor.js') }}"></script>
     <script src="{{ asset('assets/js/form-builder.min.js') }}"></script>
