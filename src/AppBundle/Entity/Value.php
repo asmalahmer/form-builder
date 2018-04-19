@@ -2,16 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Form
+ * Value
  *
- * @ORM\Table(name="form")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\FormRepository")
+ * @ORM\Table(name="value")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ValueRepository")
  */
-class Form
+class Value
 {
     /**
      * @var int
@@ -30,19 +29,13 @@ class Form
     private $json;
 
     /**
-     * @var ArrayCollection
+     * @var Form
      *
-     * @ORM\OneToMany(targetEntity="Value", mappedBy="form", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Form", inversedBy="values", cascade={"persist"})
+     * @ORM\JoinColumn(name="form_id", referencedColumnName="id")
      */
-    private $values;
+    private $form;
 
-
-    /**
-     * Form constructor.
-     */
-    public function __construct() {
-        $this->values = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -59,7 +52,7 @@ class Form
      *
      * @param array $json
      *
-     * @return Form
+     * @return Value
      */
     public function setJson($json)
     {
@@ -79,19 +72,19 @@ class Form
     }
 
     /**
-     * @return ArrayCollection
+     * @return Form
      */
-    public function getValues()
+    public function getForm()
     {
-        return $this->values;
+        return $this->form;
     }
 
     /**
-     * @param ArrayCollection $values
+     * @param Form $form
      */
-    public function setValues($values)
+    public function setForm($form)
     {
-        $this->values = $values;
+        $this->form = $form;
     }
 }
 

@@ -1,5 +1,6 @@
 .idea
 .vagrant
+.migraw/
 /ansible/playbook.retry
 /.web-server-pid
 /app/config/parameters.yml

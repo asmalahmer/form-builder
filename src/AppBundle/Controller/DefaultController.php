@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Form;
+use AppBundle\Entity\Value;
 use AppBundle\Form\FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,29 +43,48 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/api/form/get", name="apiGetForm")
+     * @Route("/form/{id}", name="getForm")
      */
-    public function apiGetFormAction(Request $request)
+    public function getFormAction(Form $formEntity, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $formEntity = $em->getRepository('AppBundle:Form')->findOneBy([], ['id' => 'DESC']);
-
-//        $object = json_decode(json_encode($formEntity->getJson()), false);
-//        var_dump($object[0]);
-
-        /**
-         * Geht nicht: https://symfony.com/doc/3.4/forms.html#form-validation
-         * Das hier testen: https://symfony.com/doc/3.4/form/without_class.html
-         */
         $form = $this->createForm(FormType::class, null, ['formEntity' => $formEntity]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump($form->getData());
+            $valueEntity = new Value();
 
-            exit;
+            $valueEntity->setJson($form->getData());
+            $valueEntity->setForm($formEntity);
+
+            $em->persist($valueEntity);
+            $em->flush();
+        }
+
+
+        return $this->render('default/form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/value/{id}", name="getValue")
+     */
+    public function getValueAction(Value $valueEntity, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(FormType::class, $valueEntity->getJson(), ['formEntity' => $valueEntity->getForm()]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $valueEntity->setJson($form->getData());
+
+            $em->persist($valueEntity);
+            $em->flush();
         }
 
 

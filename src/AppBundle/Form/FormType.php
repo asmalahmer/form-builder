@@ -45,15 +45,19 @@ class FormType extends AbstractType
                         $options['choices'][$choice['label']] = $choice['value'];
                     }
 
-                    $options['constraints'][] = new Assert\Choice(array_values($options['choices']));
-
                     if ($json['type'] == 'checkbox-group' || $json['type'] == 'radio-group') {
                         $options['expanded'] = true;
                     }
 
+                    $options['multiple'] = false;
                     if (!empty($json['multiple']) || $json['type'] == 'checkbox-group') {
                         $options['multiple'] = true;
                     }
+
+                    $options['constraints'][] = new Assert\Choice([
+                        'choices'   => array_values($options['choices']),
+                        'multiple'  => $options['multiple'],
+                    ]);
 
                     break;
             }
