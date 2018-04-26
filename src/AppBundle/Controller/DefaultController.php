@@ -31,7 +31,7 @@ class DefaultController extends Controller
     /**
      * @Route("/builder/{id}", name="builderForm")
      */
-    public function builderFormAction(Form $formEntity, Request $request)
+    public function builderFormAction(Request $request, Form $formEntity)
     {
         return $this->render('default/builder.html.twig', [
             'formEntity' => $formEntity
@@ -39,21 +39,51 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/api/form/save", name="apiSaveForm")
+     * @Route("ajax/builder/save", name="builderFormSave", methods={"POST"})
      */
-    public function apiSaveFormAction(Request $request)
+    public function builderFormSaveAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $json = $request->request->get('formData');
 
-        $form = new Form();
+        if ($id = $request->request->get('id')) {
+            $form = $em->getRepository('AppBundle:Form')->findOneBy(['id' => $id]);
+        }
+
+        if (empty($form)) {
+            $form = new Form();
+        }
+
         $form->setJson(json_decode($json, true));
         $em->persist($form);
         $em->flush();
 
         return new JsonResponse([
             'success'   => true,
-            'formData'  => json_decode($json, true)
+        ]);
+    }
+
+    /**
+     * @Route("ajax/builder/delete", name="builderFormDelete", methods={"POST"})
+     */
+    public function builderFormDeleteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $success = false;
+
+        $form = null;
+        if ($id = $request->request->get('id')) {
+            $form = $em->getRepository('AppBundle:Form')->findOneBy(['id' => $id]);
+        }
+
+        if ($form) {
+            $em->remove($form);
+            $em->flush();
+            $success = true;
+        }
+
+        return new JsonResponse([
+            'success'   => $success,
         ]);
     }
 
@@ -76,6 +106,8 @@ class DefaultController extends Controller
 
             $em->persist($valueEntity);
             $em->flush();
+
+            return $this->redirect($this->generateUrl('getValue', ['id' => $valueEntity->getId()]));
         }
 
 

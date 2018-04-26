@@ -2,7 +2,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.1/jquery.rateyo.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/demo.css') }}">
 {% endblock %}
 
@@ -12,33 +11,23 @@
         <div id="stage1" class="build-wrap"></div>
         <form class="render-wrap"></form>
         <button id="edit-form">Edit Form</button>
-        <div class="action-buttons">
-            <h2>Actions</h2>
-            <button id="getJSON" type="button">Formular Vorlage speichern</button>
-            <button id="testSubmit" type="submit">Test Submit</button>
-            <h2>i18n</h2>
-            <select id="setLanguage">
-                <option value="de-DE">Deutsch</option>
-                <option value="en-US">English</option>
-            </select>
-        </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
-        var urlApiSaveForm = "{{ path('apiSaveForm') }}",
+        var urlSaveForm = "{{ path('builderFormSave') }}",
+            urlDeleteForm = "{{ path('builderFormDelete') }}",
             id = null,
-            formData = null;
+            formDataEntity = null;
 
         {% if formEntity is defined %}
             id = {{ formEntity.id }};
-            formData = {{ formEntity.json|json_encode()|raw }};
+            formDataEntity = '{{ formEntity.json|json_encode()|raw }}';
         {% endif %}
     </script>
     <script src="{{ asset('assets/js/vendor.js') }}"></script>
     <script src="{{ asset('assets/js/form-builder.min.js') }}"></script>
     <script src="{{ asset('assets/js/form-render.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.1/jquery.rateyo.min.js"></script>
     <script src="{{ asset('assets/js/demo.js') }}"></script>
 {% endblock %}

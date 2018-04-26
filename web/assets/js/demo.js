@@ -1,8 +1,4 @@
 jQuery(function($) {
-    var typeUserDisabledAttrs = {
-        autocomplete: ['access']
-    };
-
     var typeUserAttrs = {
         text: {
             className: {
@@ -17,31 +13,31 @@ jQuery(function($) {
         }
     };
 
-    // test disabledAttrs
-    var disabledAttrs = ['access', 'description', 'toggle', 'inline', 'other'];
+    var disabledAttrs = ['access', 'description', 'toggle', 'inline', 'other', 'step'];
+    var controlOrder = ['text', 'textarea', 'number', 'select', 'radio-group', 'checkbox-group', 'date', 'file', 'button'];
+    var disableFields = ['autocomplete', 'paragraph', 'header', 'hidden'];
 
     var fbOptions = {
-        subtypes: {
-            text: ['datetime-local']
-        },
+        // subtypes: {
+        //     text: ['datetime-local']
+        // },
         onSave: function(e, formData) {
-            toggleEdit();
-            $('.render-wrap').formRender({
-                formData: formData
-            });
             window.sessionStorage.setItem('formData', JSON.stringify(formData));
+            saveBuilderForm(formData);
+        },
+        onClearAll: function(e) {
+            deleteBuilderForm(formData);
         },
         stickyControls: {
             enable: true
         },
-        sortableControls: true,
-        typeUserDisabledAttrs: typeUserDisabledAttrs,
         typeUserAttrs: typeUserAttrs,
-        disableInjectedStyle: false,
-        disableFields: ['autocomplete'],
+        disableFields: disableFields,
         disabledFieldButtons: {
             text: ['copy']
         },
+        disabledActionButtons: ['data'],
+        controlOrder: controlOrder,
         i18n: {
             'locale': 'de-DE'
         },
@@ -49,71 +45,49 @@ jQuery(function($) {
         disabledAttrs
     };
     var formData = window.sessionStorage.getItem('formData');
-    var editing = true;
 
     if (formData) {
-        fbOptions.formData = JSON.parse(formData);
+        fbOptions.formData = formData;
     }
-
-    /**
-     * Toggles the edit mode for the demo
-     * @return {Boolean} editMode
-     */
-    function toggleEdit() {
-        document.body.classList.toggle('form-rendered', editing);
-        return editing = !editing;
+    if (formDataEntity) {
+        fbOptions.formData = formDataEntity;
     }
 
     var formBuilder = $('.build-wrap').formBuilder(fbOptions);
     var fbPromise = formBuilder.promise;
 
-    fbPromise.then(function(fb) {
-        var apiBtns = {
-            testSubmit: function() {
-                var formData = new FormData(document.forms[0]);
-                console.log('Can submit: ', document.forms[0].checkValidity());
-                // Display the key/value pairs
-                console.log('FormData:', formData);
-                for(var pair of formData.entries()) {
-                    console.log(pair[0]+ ': '+ pair[1]);
-                }
-            }
-        };
+    // fbPromise.then(function(fb) {
+    // });
 
-        Object.keys(apiBtns).forEach(function(action) {
-            document.getElementById(action)
-                .addEventListener('click', function(e) {
-                    apiBtns[action]();
-                });
-        });
-
-        document.getElementById('setLanguage')
-            .addEventListener('change', function(e) {
-                fb.actions.setLang(e.target.value);
-            });
-
-        document.getElementById('getJSON').addEventListener('click', function() {
-            sendJsonForm(formBuilder.actions.getData('json'));
-        });
-
-        if (formData) {
-            fb.actions.setData(formData);
-        }
-    });
-
-    document.getElementById('edit-form').onclick = function() {
-        toggleEdit();
-    };
-
-    function sendJsonForm(formData) {
+    function saveBuilderForm(formData) {
         $.ajax({
             type: 'POST',
-            url: urlApiSaveForm,
+            url: urlSaveForm,
             data: {
-                formData: formData
+                formData: formData,
+                id: id
             },
             success: function(data) {
                 console.log(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("some error");
+            }
+        });
+    }
+
+    function deleteBuilderForm() {
+        $.ajax({
+            type: 'POST',
+            url: urlDeleteForm,
+            data: {
+                id: id
+            },
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("some error");
             }
         });
     }
