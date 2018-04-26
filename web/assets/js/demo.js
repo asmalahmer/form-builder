@@ -26,7 +26,7 @@ jQuery(function($) {
             saveBuilderForm(formData);
         },
         onClearAll: function(e) {
-            deleteBuilderForm(formData);
+            deleteBuilderForm();
         },
         stickyControls: {
             enable: true
@@ -59,6 +59,15 @@ jQuery(function($) {
     // fbPromise.then(function(fb) {
     // });
 
+
+    bootstrap_alert = function() {};
+    bootstrap_alert.success = function(message) {
+        $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
+    };
+    bootstrap_alert.warning = function(message) {
+        $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
+    };
+
     function saveBuilderForm(formData) {
         $.ajax({
             type: 'POST',
@@ -68,10 +77,14 @@ jQuery(function($) {
                 id: id
             },
             success: function(data) {
-                console.log(data);
+                if (data.success) {
+                    bootstrap_alert.success('Erfolgreich gespeichert');
+                } else {
+                    bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log("some error");
+                bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
             }
         });
     }
@@ -84,10 +97,15 @@ jQuery(function($) {
                 id: id
             },
             success: function(data) {
-                console.log(data);
+                if (data.success) {
+                    bootstrap_alert.success('Erfolgreich gelöscht');
+                    id = null;
+                } else {
+                    bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log("some error");
+                bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
             }
         });
     }

@@ -32,7 +32,7 @@ class Form
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Value", mappedBy="form", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Value", mappedBy="form", cascade={"persist", "remove"})
      */
     private $values;
 

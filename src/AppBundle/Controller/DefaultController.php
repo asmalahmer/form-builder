@@ -21,6 +21,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Renders the builder page
+     *
      * @Route("/builder/", name="builder")
      */
     public function builderAction(Request $request)
@@ -29,6 +31,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Renders the builder page from a existing builder (edit)
+     *
      * @Route("/builder/{id}", name="builderForm")
      */
     public function builderFormAction(Request $request, Form $formEntity)
@@ -39,6 +43,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Saves a new or existing builder
+     *
      * @Route("ajax/builder/save", name="builderFormSave", methods={"POST"})
      */
     public function builderFormSaveAction(Request $request)
@@ -64,6 +70,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Deletes a builder
+     *
      * @Route("ajax/builder/delete", name="builderFormDelete", methods={"POST"})
      */
     public function builderFormDeleteAction(Request $request)
@@ -88,9 +96,11 @@ class DefaultController extends Controller
     }
 
     /**
+     * Renders a new form
+     *
      * @Route("/form/{id}", name="getForm")
      */
-    public function getFormAction(Form $formEntity, Request $request)
+    public function renderFormAction(Form $formEntity, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -117,6 +127,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Renders a form with existing form data
+     *
      * @Route("/value/{id}", name="getValue")
      */
     public function getValueAction(Value $valueEntity, Request $request)
