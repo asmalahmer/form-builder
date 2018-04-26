@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="content">
+        <ul class="list-unstyled">
+            {% for builder in builders %}
+                <li><a href="{{ path('getForm', {'id': builder.id}) }}">{{ builder.id }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

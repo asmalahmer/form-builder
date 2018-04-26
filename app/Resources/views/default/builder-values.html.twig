@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="content">
+        <h1>{{ formEntity.id }}</h1>
+        <ul class="list-unstyled">
+            {% for value in values %}
+                <li><a href="{{ path('getValue', {'id': value.id}) }}">{{ value.id }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

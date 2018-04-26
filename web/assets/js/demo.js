@@ -17,6 +17,21 @@ jQuery(function($) {
     var controlOrder = ['text', 'textarea', 'number', 'select', 'radio-group', 'checkbox-group', 'date', 'file', 'button'];
     var disableFields = ['autocomplete', 'paragraph', 'header', 'hidden'];
 
+    var actionButtons = [];
+    if (id && urlShowForm) {
+        actionButtons = [{
+            id: 'show',
+            className: 'btn btn-default',
+            label: '👁️',
+            type: 'button',
+            events: {
+                click: function () {
+                    window.location.href = urlShowForm;
+                }
+            }
+        }]
+    }
+
     var fbOptions = {
         // subtypes: {
         //     text: ['datetime-local']
@@ -32,6 +47,7 @@ jQuery(function($) {
             enable: true
         },
         typeUserAttrs: typeUserAttrs,
+        actionButtons: actionButtons,
         disableFields: disableFields,
         disabledFieldButtons: {
             text: ['copy']
