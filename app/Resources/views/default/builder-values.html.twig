@@ -3,10 +3,26 @@
 {% block body %}
     <div class="content">
         <h1>{{ formEntity.id }}</h1>
-        <ul class="list-unstyled">
-            {% for value in values %}
-                <li><a href="{{ path('getValue', {'id': value.id}) }}">{{ value.id }}</a></li>
-            {% endfor %}
-        </ul>
+        <table cellpadding="10">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    {% for array in formEntity.json %}
+                        <th>{{ array.label }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for valueObject in values %}
+                    <tr>
+                        <td><a href="{{ path('getValue', {'id': valueObject.id}) }}">{{ valueObject.id }}</a></td>
+                        {% for field in fields %}
+                            {% set value = attribute(valueObject.json, field) is defined ? attribute(valueObject.json, field) : '' %}
+                            <td>{% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

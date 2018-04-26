@@ -44,7 +44,7 @@ class AdminController extends Controller
     /**
      * Renders the builder page from a existing builder (edit)
      *
-     * @Route("builder/{id}", name="builderForm")
+     * @Route("builder/{id}/", name="builderForm")
      */
     public function builderFormAction(Request $request, Form $formEntity)
     {
@@ -64,9 +64,15 @@ class AdminController extends Controller
 
         $values = $em->getRepository('AppBundle:Value')->findValuesByForm($formEntity);
 
+        $fields = [];
+        foreach ($formEntity->getJson() as $json) {
+            $fields[] = $json['name'];
+        }
+
         return $this->render('default/builder-values.html.twig', [
             'formEntity' => $formEntity,
-            'values'     => $values
+            'values'     => $values,
+            'fields'     => $fields,
         ]);
     }
 
