@@ -21,6 +21,8 @@ class FormType extends AbstractType
             'select'            => Types\ChoiceType::class,
             'checkbox-group'    => Types\ChoiceType::class,
             'radio-group'       => Types\ChoiceType::class,
+            'date'              => Types\DateType::class,
+            'file'              => Types\FileType::class,
             'button'            => Types\ButtonType::class,   // subtype
             'submit'            => Types\SubmitType::class,   // subtype
             'reset'             => Types\ResetType::class,    // subtype
@@ -61,6 +63,14 @@ class FormType extends AbstractType
                         'multiple'  => $options['multiple'],
                     ]);
 
+                    break;
+                case Types\DateType::class:
+                    $options['widget'] = 'single_text';
+                    $options['format'] = 'yyyy-MM-dd';
+                    $options['constraints'][] = new Assert\Date();
+                    break;
+                case Types\FileType::class:
+                    $options['constraints'][] = new Assert\File();
                     break;
             }
 
