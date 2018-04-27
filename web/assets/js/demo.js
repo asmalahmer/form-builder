@@ -78,10 +78,10 @@ jQuery(function($) {
 
     bootstrap_alert = function() {};
     bootstrap_alert.success = function(message) {
-        $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
+        $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable fade show"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
     };
     bootstrap_alert.warning = function(message) {
-        $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
+        $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable fade show"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
     };
 
     function saveBuilderForm(formData) {
@@ -93,8 +93,8 @@ jQuery(function($) {
                 id: id
             },
             success: function(data) {
-                if (data.success) {
-                    bootstrap_alert.success('Erfolgreich gespeichert');
+                if (data.success && data.redirect) {
+                    window.location.href = data.redirect;
                 } else {
                     bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
                 }
@@ -113,9 +113,8 @@ jQuery(function($) {
                 id: id
             },
             success: function(data) {
-                if (data.success) {
-                    bootstrap_alert.success('Erfolgreich gelöscht');
-                    id = null;
+                if (data.success && data.redirect) {
+                    window.location.href = data.redirect;
                 } else {
                     bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
                 }

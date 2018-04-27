@@ -2,10 +2,39 @@
 
 {% block body %}
     <div class="content">
-        <ul class="list-unstyled">
-            {% for builder in builders %}
-                <li><a href="{{ path('getForm', {'id': builder.id}) }}">{{ builder.id }}</a></li>
-            {% endfor %}
-        </ul>
+        <table cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fields</th>
+                    <th>Actions</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for builder in builders %}
+                    <tr>
+                        <td>
+                            {{ builder.id }}
+                        </td>
+                        <td>
+                            {% for array in builder.json %}
+                                {{ array.label }}{% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{{ path('getForm', {'id': builder.id}) }}">Show</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('builderForm', {'id': builder.id}) }}">Edit</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('builderFormValues', {'id': builder.id}) }}">Values</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

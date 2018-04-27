@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/admin/")
+ * @Route("/admin")
  */
 class AdminController extends Controller
 {
@@ -34,7 +34,7 @@ class AdminController extends Controller
     /**
      * Renders the builder page (new)
      *
-     * @Route("builder/", name="builder")
+     * @Route("/builder/", name="builder")
      */
     public function builderAction(Request $request)
     {
@@ -44,7 +44,7 @@ class AdminController extends Controller
     /**
      * Renders the builder page from a existing builder (edit)
      *
-     * @Route("builder/{id}/", name="builderForm")
+     * @Route("/builder/{id}/", name="builderForm")
      */
     public function builderFormAction(Request $request, Form $formEntity)
     {
@@ -56,7 +56,7 @@ class AdminController extends Controller
     /**
      * Lists all related values from a builder
      *
-     * @Route("builder/{id}/values", name="builderFormValues")
+     * @Route("/builder/{id}/values", name="builderFormValues")
      */
     public function builderFormValuesAction(Request $request, Form $formEntity)
     {
@@ -79,7 +79,7 @@ class AdminController extends Controller
     /**
      * Saves a new or existing builder
      *
-     * @Route("ajax/builder/save", name="builderFormSave", methods={"POST"})
+     * @Route("/ajax/builder/save", name="builderFormSave", methods={"POST"})
      */
     public function builderFormSaveAction(Request $request)
     {
@@ -98,20 +98,27 @@ class AdminController extends Controller
         $em->persist($form);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'Das Formular wurde gespeichert'
+        );
+
         return new JsonResponse([
             'success'   => true,
+            'redirect'  => $this->generateUrl('builderForm', ['id' => $form->getId()]),
         ]);
     }
 
     /**
      * Deletes a builder
      *
-     * @Route("ajax/builder/delete", name="builderFormDelete", methods={"POST"})
+     * @Route("/ajax/builder/delete", name="builderFormDelete", methods={"POST"})
      */
     public function builderFormDeleteAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $success = false;
+        $redirect = false;
 
         $form = null;
         if ($id = $request->request->get('id')) {
@@ -124,8 +131,17 @@ class AdminController extends Controller
             $success = true;
         }
 
+        if ($success) {
+            $redirect = $this->generateUrl('admin');
+            $this->addFlash(
+                'success',
+                'Das Formular wurde gelöscht'
+            );
+        }
+
         return new JsonResponse([
             'success'   => $success,
+            'redirect'  => $redirect,
         ]);
     }
 }
