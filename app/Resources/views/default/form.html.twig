@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {% for key, element in form.children %}
-            {{ form_row(attribute(form, key)) }}
-            {% if element.vars.type is defined and element.vars.type == 'file' and element.vars.data is not null %}
-                <a href="{{ asset('uploads/' ~ element.vars.data.filename )}}" target="_blank">Preview file</a>
-            {% endif %}
-        {% endfor %}
-    {#{{ form_widget(form) }}#}
-    {{ form_end(form) }}
+    <div class="content">
+        {{ form_start(form) }}
+            {% for key, element in form.children %}
+                {{ form_row(attribute(form, key)) }}
+                {% if element.vars.type is defined and element.vars.type == 'file' and element.vars.data is not null %}
+                    <a href="{{ asset('uploads/' ~ element.vars.data.filename )}}" target="_blank">Preview file</a>
+                {% endif %}
+            {% endfor %}
+        {#{{ form_widget(form) }}#}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 

@@ -20,7 +20,7 @@ jQuery(function($) {
         actionButtons = [{
             id: 'show',
             className: 'btn btn-default',
-            label: '👁️',
+            label: '<i class="fas fa-eye"></i>',
             type: 'button',
             events: {
                 click: function () {

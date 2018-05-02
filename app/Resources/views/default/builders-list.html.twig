@@ -6,10 +6,8 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Fields</th>
-                    <th>Actions</th>
-                    <th></th>
-                    <th></th>
+                    <th>Felder</th>
+                    <th colspan="3">Aktionen</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,13 +22,13 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('getForm', {'id': builder.id}) }}">Show</a>
+                            <a href="{{ path('getForm', {'id': builder.id}) }}" class="btn btn-primary" title="Anzeigen"><i class="fas fa-eye"></i></a>
                         </td>
                         <td>
-                            <a href="{{ path('builderForm', {'id': builder.id}) }}">Edit</a>
+                            <a href="{{ path('builderForm', {'id': builder.id}) }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
                         </td>
                         <td>
-                            <a href="{{ path('builderFormValues', {'id': builder.id}) }}">Values</a>
+                            <a href="{{ path('builderFormValues', {'id': builder.id}) }}" class="btn btn-primary" title="Werte"><i class="fas fa-list-ul"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
