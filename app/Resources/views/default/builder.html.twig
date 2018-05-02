@@ -1,10 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/demo.css') }}">
-{% endblock %}
-
 {% block body %}
     <div class="content">
         <h1>Form Builder {% if formEntity is defined %} - {{ formEntity.id }}{% endif %}</h1>

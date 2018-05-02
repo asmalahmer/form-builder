@@ -10,6 +10,11 @@ body {
 
 .navbar-brand img {
     max-height: 50px;
+    transition: all 0.4s ease;
+}
+
+.shrink .navbar-brand img {
+    max-height: 35px;
 }
 
 body > div {}

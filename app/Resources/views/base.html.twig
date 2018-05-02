@@ -6,7 +6,7 @@
         <title>{% block title %}Form Builder{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
-            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/fontawesome.min.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/fontawesome-all.min.css') }}">
             <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/main.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -17,8 +17,8 @@
             <div class="collapse navbar-collapse justify-content-end container">
                 <ul class="navbar-nav">
                 {% block nav %}
-                    <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Alle Formular Builder</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('builder') }}">Neuer Formular Builder</a></li>
+                    <li class="nav-item {% if app.request.get('_route') == 'admin' %}active{% endif %}"><a class="nav-link" href="{{ path('admin') }}">Alle Formular Builder</a></li>
+                    <li class="nav-item {% if app.request.get('_route') == 'builder' %}active{% endif %}"><a class="nav-link" href="{{ path('builder') }}">Neuer Formular Builder</a></li>
                 {% endblock %}
                 </ul>
             </div>
