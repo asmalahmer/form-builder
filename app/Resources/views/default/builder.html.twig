@@ -20,7 +20,9 @@
             urlDeleteForm = "{{ path('builderFormDelete') }}",
             id = null,
             formDataEntity = null,
-            urlShowForm = null;
+            urlShowForm = null,
+            orderAvailableFields = {{ available_builder_fields|json_encode()|raw }},
+            disabledFields = {{ disabledFields|json_encode()|raw }};
 
         {% if formEntity is defined %}
             id = {{ formEntity.id }};

@@ -38,7 +38,12 @@ class AdminController extends Controller
      */
     public function builderAction(Request $request)
     {
-        return $this->render('default/builder.html.twig');
+        $disabledFields = array_diff($this->getParameter('available_builder_fields'), $this->getParameter('allowed_types'));
+        $disabledFields = array_merge($this->getParameter('disabled_builder_fields'), $disabledFields);
+
+        return $this->render('default/builder.html.twig', [
+            'disabledFields' => $disabledFields
+        ]);
     }
 
     /**
@@ -48,8 +53,12 @@ class AdminController extends Controller
      */
     public function builderFormAction(Request $request, Form $formEntity)
     {
+        $disabledFields = array_diff($this->getParameter('available_builder_fields'), $this->getParameter('allowed_types'));
+        $disabledFields = array_merge($this->getParameter('disabled_builder_fields'), $disabledFields);
+
         return $this->render('default/builder.html.twig', [
-            'formEntity' => $formEntity
+            'formEntity' => $formEntity,
+            'disabledFields' => $disabledFields
         ]);
     }
 
@@ -64,9 +73,9 @@ class AdminController extends Controller
 
         $values = $em->getRepository('AppBundle:Value')->findValuesByForm($formEntity);
 
-        $fields = [];
         foreach ($formEntity->getJson() as $json) {
-            $fields[] = $json['name'];
+            $fields['name'][] = $json['name'];
+            $fields['label'][] = $json['label'];
         }
 
         return $this->render('default/builder-values.html.twig', [

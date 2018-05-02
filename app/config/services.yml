@@ -34,6 +34,10 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    AppBundle\Form\FormType:
+        arguments:
+            $allowedTypes: '%allowed_types%'
+
     AppBundle\Service\FileUploader:
         arguments:
             $targetDirectory: '%upload_directory%'

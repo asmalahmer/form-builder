@@ -11,6 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class FormType extends AbstractType
 {
+    private $allowedTypes;
+
+    public function __construct($allowedTypes)
+    {
+        $this->allowedTypes = $allowedTypes;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $buildOptions)
     {
         $typeMapping = [
@@ -29,9 +36,9 @@ class FormType extends AbstractType
         ];
 
         foreach ($buildOptions['formEntity']->getJson() as $json) {
-            if (isset($json['subtype']) && isset($typeMapping[$json['subtype']])) {
+            if (isset($json['subtype']) && isset($typeMapping[$json['subtype']]) && in_array($json['subtype'], $this->allowedTypes)) {
                 $formType = $typeMapping[$json['subtype']];
-            } elseif (isset($typeMapping[$json['type']])) {
+            } elseif (isset($typeMapping[$json['type']]) && in_array($json['type'], $this->allowedTypes)) {
                 $formType = $typeMapping[$json['type']];
             } else {
                 continue;

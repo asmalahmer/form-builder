@@ -1,21 +1,19 @@
 jQuery(function($) {
     var typeUserAttrs = {
-        text: {
-            className: {
-                label: 'Class',
-                options: {
-                    'red form-control': 'Red',
-                    'green form-control': 'Green',
-                    'blue form-control': 'Blue'
-                },
-                style: 'border: 1px solid red'
-            }
-        }
+        // text: {
+        //     className: {
+        //         label: 'Class',
+        //         options: {
+        //             'red form-control': 'Red',
+        //             'green form-control': 'Green',
+        //             'blue form-control': 'Blue'
+        //         },
+        //         style: 'border: 1px solid red'
+        //     }
+        // }
     };
 
     var disabledAttrs = ['access', 'description', 'toggle', 'inline', 'other', 'step'];
-    var controlOrder = ['text', 'textarea', 'number', 'select', 'radio-group', 'checkbox-group', 'date', 'file', 'button'];
-    var disableFields = ['autocomplete', 'paragraph', 'header', 'hidden'];
 
     var actionButtons = [];
     if (id && urlShowForm) {
@@ -48,12 +46,13 @@ jQuery(function($) {
         },
         typeUserAttrs: typeUserAttrs,
         actionButtons: actionButtons,
-        disableFields: disableFields,
+        disableFields: disabledFields,
         disabledFieldButtons: {
             text: ['copy']
         },
         disabledActionButtons: ['data'],
-        controlOrder: controlOrder,
+        controlOrder: orderAvailableFields,
+        fieldRemoveWarn: true,
         i18n: {
             'locale': 'de-DE'
         },

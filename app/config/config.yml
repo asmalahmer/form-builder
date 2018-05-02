@@ -7,6 +7,21 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    available_builder_fields:
+        - text
+        - textarea
+        - number
+        - select
+        - radio-group
+        - checkbox-group
+        - date
+        - file
+        - button
+    disabled_builder_fields:
+        - autocomplete
+        - paragraph
+        - header
+        - hidden
 
 framework:
     #esi: ~
@@ -35,6 +50,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        available_builder_fields: '%available_builder_fields%'
 
 # Doctrine Configuration
 doctrine:

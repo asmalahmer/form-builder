@@ -19,3 +19,17 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 
     upload_directory: '%kernel.project_dir%/web/uploads/'
+
+    allowed_types:
+        - 'text'
+        - 'email'
+        - 'textarea'
+        - 'number'
+        - 'select'
+        - 'checkbox-group'
+        - 'radio-group'
+        - 'date'
+        - 'file'
+        - 'button'
+        - 'submit'
+        - 'reset'
