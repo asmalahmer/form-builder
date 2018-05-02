@@ -8,6 +8,10 @@ body {
   font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
 }
 
+.navbar-brand img {
+    max-height: 50px;
+}
+
 body > div {}
 
 #fb-template {

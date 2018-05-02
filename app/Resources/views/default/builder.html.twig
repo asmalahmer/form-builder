@@ -7,7 +7,7 @@
 
 {% block body %}
     <div class="content">
-        <h1>Field Interactive formBuilder</h1>
+        <h1>Form Builder {% if formEntity is defined %} - {{ formEntity.id }}{% endif %}</h1>
         <div id="stage1" class="build-wrap"></div>
         <form class="render-wrap"></form>
     </div>
