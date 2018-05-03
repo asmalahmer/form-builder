@@ -13,8 +13,8 @@
     </head>
     <body>
         <nav class="navbar fixed-top navbar-expand-lg navbar-light navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Field Interactive"></a>
-            <div class="collapse navbar-collapse justify-content-end container">
+            <div class="collapse navbar-collapse container">
+                <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Field Interactive"></a>
                 <ul class="navbar-nav">
                 {% block nav %}
                     <li class="nav-item {% if app.request.get('_route') == 'admin' %}active{% endif %}"><a class="nav-link" href="{{ path('admin') }}">Alle Formular Builder</a></li>
@@ -33,10 +33,14 @@
             {% endfor %}
             {% block body %}{% endblock %}
         </main>
+        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         {% block javascripts %}
-            <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
-            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+            <script>
+                var urlSaveForm = "{{ path('builderFormSave') }}",
+                    urlDeleteForm = "{{ path('builderFormDelete') }}";
+            </script>
+            <script src="{{ asset('assets/js/main.js') }}"></script>
         {% endblock %}
     </body>
 </html>

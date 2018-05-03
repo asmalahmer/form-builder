@@ -21,11 +21,11 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/form-builder.min.js') }}"></script>
     {{ parent() }}
     <script>
-        var urlSaveForm = "{{ path('builderFormSave') }}",
-            urlDeleteForm = "{{ path('builderFormDelete') }}",
-            id = null,
+        var id = null,
             formDataEntity = null,
             urlShowForm = null,
             orderAvailableFields = {{ available_builder_fields|json_encode()|raw }},
@@ -36,7 +36,9 @@
             formDataEntity = '{{ formEntity.json|json_encode()|raw }}';
             urlShowForm = "{{ path('getForm', {'id': formEntity.id}) }}";
         {% endif %}
+
+        $(document).ready(function () {
+            formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disabledFields);
+        });
     </script>
-    <script src="{{ asset('assets/js/form-builder.min.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
 {% endblock %}

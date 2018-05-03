@@ -1,4 +1,4 @@
-jQuery(function($) {
+function formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disabledFields) {
     var typeUserAttrs = {
         // text: {
         //     className: {
@@ -36,10 +36,10 @@ jQuery(function($) {
         // },
         onSave: function(e, formData) {
             window.sessionStorage.setItem('formData', JSON.stringify(formData));
-            saveBuilderForm(formData);
+            saveBuilderForm(formData, id);
         },
         onClearAll: function(e) {
-            deleteBuilderForm();
+            deleteBuilderForm(id);
         },
         stickyControls: {
             enable: true
@@ -82,69 +82,73 @@ jQuery(function($) {
     bootstrap_alert.warning = function(message) {
         $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable fade show"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
     };
+}
 
-    function saveBuilderForm(formData) {
-        $.ajax({
-            type: 'POST',
-            url: urlSaveForm,
-            data: {
-                formData: formData,
-                formName: $('#formNameEdit input').val(),
-                id: id
-            },
-            success: function(data) {
-                if (data.success && data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
+function saveBuilderForm(formData, id) {
+    $.ajax({
+        type: 'POST',
+        url: urlSaveForm,
+        data: {
+            formData: formData,
+            formName: $('#formNameEdit input').val(),
+            id: id
+        },
+        success: function(data) {
+            if (data.success && data.redirect) {
+                window.location.href = data.redirect;
+            } else {
                 bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
             }
-        });
-    }
-
-    function deleteBuilderForm() {
-        $.ajax({
-            type: 'POST',
-            url: urlDeleteForm,
-            data: {
-                id: id
-            },
-            success: function(data) {
-                if (data.success && data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
-            }
-        });
-    }
-
-    $(window).scroll(function() {
-        if ($(document).scrollTop() > 50) {
-            $('nav').addClass('shrink');
-        } else {
-            $('nav').removeClass('shrink');
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
         }
     });
+}
 
-    $(document).ready(function () {
+function deleteBuilderForm(id) {
+    if (!id) {
+        return false;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: urlDeleteForm,
+        data: {
+            id: id
+        },
+        success: function(data) {
+            if (data.success && data.redirect) {
+                window.location.href = data.redirect;
+            } else {
+                bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
+        }
+    });
+}
+
+$(window).scroll(function() {
+    if ($(document).scrollTop() > 50) {
+        $('nav').addClass('shrink');
+    } else {
+        $('nav').removeClass('shrink');
+    }
+});
+
+$(document).ready(function () {
+    $('#formName .name').html($('#formNameEdit input').val());
+
+    $('#formName .fa-edit').on('click', function () {
+        $('#formName').addClass('d-none');
+        $('#formNameEdit').removeClass('d-none');
+    });
+
+    $('#formNameEdit .fa-check').on('click', function () {
+        $('#formName').removeClass('d-none');
+        $('#formNameEdit').addClass('d-none');
         $('#formName .name').html($('#formNameEdit input').val());
-
-        $('#formName .fa-edit').on('click', function () {
-            $('#formName').addClass('d-none');
-            $('#formNameEdit').removeClass('d-none');
-        });
-
-        $('#formNameEdit .fa-check').on('click', function () {
-            $('#formName').removeClass('d-none');
-            $('#formNameEdit').addClass('d-none');
-            $('#formName .name').html($('#formNameEdit input').val());
-        });
     });
 });

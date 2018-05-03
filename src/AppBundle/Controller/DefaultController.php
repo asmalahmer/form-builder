@@ -97,7 +97,29 @@ class DefaultController extends Controller
         return $this->render('default/form.html.twig', array(
             'form'          => $form->createView(),
             'formEntity'    => $valueEntity->getForm(),
+            'valueEntity'   => $valueEntity,
         ));
+    }
+
+    /**
+     * Delete value
+     *
+     * @Route("/value/{id}/delete", name="deleteValue")
+     */
+    public function deleteValueAction(Value $valueEntity, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $redirect = $this->generateUrl('builderFormValues', ['id' => $valueEntity->getForm()->getId()]);
+
+        $em->remove($valueEntity);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Die Eingaben wurden gelöscht'
+        );
+
+        return $this->redirect($redirect);
     }
 
     /**
