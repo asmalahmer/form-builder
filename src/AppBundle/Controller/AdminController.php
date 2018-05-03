@@ -103,13 +103,14 @@ class AdminController extends Controller
             $form = new Form();
         }
 
+        $form->setName($request->request->get('formName'));
         $form->setJson(json_decode($json, true));
         $em->persist($form);
         $em->flush();
 
         $this->addFlash(
             'success',
-            'Das Formular wurde gespeichert'
+            'Das Formular <strong>'. $form->getName() .'</strong> wurde gespeichert'
         );
 
         return new JsonResponse([
@@ -144,7 +145,7 @@ class AdminController extends Controller
             $redirect = $this->generateUrl('admin');
             $this->addFlash(
                 'success',
-                'Das Formular wurde gelöscht'
+                'Das Formular <strong>'. $form->getName() .'</strong> wurde gelöscht'
             );
         }
 

@@ -2,9 +2,21 @@
 
 {% block body %}
     <div class="content">
-        <h1>Form Builder {% if formEntity is defined %} - {{ formEntity.id }}{% endif %}</h1>
+        <h1 id="formName" {% if formEntity.name is not defined or formEntity.name is empty %}class="d-none"{% endif %}>
+            <span class="text-muted fas fa-edit" title="Namen bearbeiten"></span>
+            <span class="name"></span>
+        </h1>
+
+        <div id="formNameEdit" class="form-group {% if formEntity.name is defined and formEntity.name is not empty %}d-none{% endif %}">
+            <div class="input-group">
+                <div class="input-group-addon input-group-prepend">
+                    <span class="input-group-text text-success fas fa-check" title="Namen anzeigen"></span>
+                </div>
+                <input type="text" class="form-control" name="formName" value="{% if formEntity.name is defined and formEntity.name is not empty %}{{ formEntity.name }}{% endif %}" placeholder="Formularname">
+            </div>
+        </div>
+
         <div id="stage1" class="build-wrap"></div>
-        <form class="render-wrap"></form>
     </div>
 {% endblock %}
 

@@ -28,7 +28,7 @@
             {% for flash_message in app.session.flashBag.get('success') %}
                 <div class="flash-notice alert alert-success fade show">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {{ flash_message }}
+                    {{ flash_message|raw }}
                 </div>
             {% endfor %}
             {% block body %}{% endblock %}

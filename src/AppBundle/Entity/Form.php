@@ -23,6 +23,13 @@ class Form
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=true, unique=false)
+     */
+    private $name;
+
+    /**
      * @var array
      *
      * @ORM\Column(name="json", type="json_array")
@@ -52,6 +59,22 @@ class Form
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

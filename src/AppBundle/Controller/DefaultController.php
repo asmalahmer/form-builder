@@ -20,7 +20,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->redirect($this->generateUrl('builder'));
+        return $this->redirect($this->generateUrl('admin'));
     }
 
     /**
@@ -47,12 +47,18 @@ class DefaultController extends Controller
             $em->persist($valueEntity);
             $em->flush();
 
+            $this->addFlash(
+                'success',
+                'Die Eingaben wurden gespeichert'
+            );
+
             return $this->redirect($this->generateUrl('getValue', ['id' => $valueEntity->getId()]));
         }
 
 
         return $this->render('default/form.html.twig', array(
-            'form' => $form->createView(),
+            'form'          => $form->createView(),
+            'formEntity'    => $formEntity,
         ));
     }
 
@@ -80,11 +86,17 @@ class DefaultController extends Controller
 
             $em->persist($valueEntity);
             $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Die Eingaben wurden gespeichert'
+            );
         }
 
 
         return $this->render('default/form.html.twig', array(
-            'form' => $form->createView(),
+            'form'          => $form->createView(),
+            'formEntity'    => $valueEntity->getForm(),
         ));
     }
 

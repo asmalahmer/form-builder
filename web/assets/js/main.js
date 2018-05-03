@@ -89,6 +89,7 @@ jQuery(function($) {
             url: urlSaveForm,
             data: {
                 formData: formData,
+                formName: $('#formNameEdit input').val(),
                 id: id
             },
             success: function(data) {
@@ -130,5 +131,20 @@ jQuery(function($) {
         } else {
             $('nav').removeClass('shrink');
         }
+    });
+
+    $(document).ready(function () {
+        $('#formName .name').html($('#formNameEdit input').val());
+
+        $('#formName .fa-edit').on('click', function () {
+            $('#formName').addClass('d-none');
+            $('#formNameEdit').removeClass('d-none');
+        });
+
+        $('#formNameEdit .fa-check').on('click', function () {
+            $('#formName').removeClass('d-none');
+            $('#formNameEdit').addClass('d-none');
+            $('#formName .name').html($('#formNameEdit input').val());
+        });
     });
 });
