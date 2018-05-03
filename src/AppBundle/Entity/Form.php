@@ -25,7 +25,7 @@ class Form
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255, nullable=true, unique=false)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true, unique=false)
      */
     private $name;
 

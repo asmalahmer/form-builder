@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>{% block title %}Form Builder{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/fontawesome-all.min.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <style>
+        body {
+            background: #eee;
+        }
+        .wrapper {
+            margin-top: 80px;
+            margin-bottom: 80px;
+        }
+        .flash-notice {
+            max-width: 380px;
+            margin: 15px auto;
+        }
+        .form-signin {
+            max-width: 380px;
+            padding: 15px 35px 45px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .form-signin .form-signin-heading {
+            margin-bottom: 30px;
+        }
+        .form-signin .form-control {
+            position: relative;
+            font-size: 16px;
+            height: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="text"] {
+            margin-bottom: -1px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 20px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
+</head>
+<body>
+<main>
+
+    <div class="wrapper">
+        {% if error %}
+            <div class="flash-notice alert alert-danger fade show">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <form class="form-signin"  action="{{ path('login') }}" method="post">
+            <h2 class="form-signin-heading">Bitte Anmelden</h2>
+            <input type="text" class="form-control" placeholder="Benutzername" name="_username" value="{{ last_username }}" />
+            <input type="password" class="form-control" placeholder="Passwort" name="_password" />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
+        </form>
+    </div>
+
+</main>
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+</body>
+</html>
