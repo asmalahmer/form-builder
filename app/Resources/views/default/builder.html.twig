@@ -29,11 +29,11 @@
             formDataEntity = null,
             urlShowForm = null,
             orderAvailableFields = {{ available_builder_fields|json_encode()|raw }},
-            disabledFields = {{ disabledFields|json_encode()|raw }};
+            disabledFields = {{ getDisabledFields()|raw }};
 
         {% if formEntity is defined %}
             id = {{ formEntity.id }};
-            formDataEntity = '{{ formEntity.json|json_encode()|raw }}';
+            formDataEntity = '{{ formEntity.json|filterJson()|json_encode()|raw }}';
             urlShowForm = "{{ path('getForm', {'id': formEntity.id}) }}";
         {% endif %}
 

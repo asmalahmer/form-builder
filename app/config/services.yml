@@ -41,3 +41,11 @@ services:
     AppBundle\Service\FileUploader:
         arguments:
             $targetDirectory: '%upload_directory%'
+
+    AppBundle\Twig\BuilderExtension:
+        arguments:
+            $availableBuilderFields: '%available_builder_fields%'
+            $allowedTypes: '%allowed_types%'
+            $disabledBuilderFields: '%disabled_builder_fields%'
+        tags:
+            - { name: twig.extension }

@@ -17,7 +17,7 @@
                             {{ builder.name }}
                         </td>
                         <td>
-                            {% for array in builder.json %}
+                            {% for array in builder.json|filterJson() %}
                                 {{ array.label }}{% if not loop.last %},{% endif %}
                             {% endfor %}
                         </td>

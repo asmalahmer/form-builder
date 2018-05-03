@@ -6,8 +6,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    {% for label in fields.label %}
-                        <th>{{ label }}</th>
+                    {% for field in formEntity.json|filterJson() %}
+                        <th>{{ field.label }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -15,8 +15,8 @@
                 {% for valueObject in values %}
                     <tr>
                         <td><a href="{{ path('getValue', {'id': valueObject.id}) }}">{{ valueObject.id }}</a></td>
-                        {% for field in fields.name %}
-                            {% set value = attribute(valueObject.json, field) is defined ? attribute(valueObject.json, field) : '' %}
+                        {% for field in formEntity.json|filterJson() %}
+                            {% set value = attribute(valueObject.json, field.name) is defined ? attribute(valueObject.json, field.name) : '' %}
                             <td>{% if value is iterable %}{{ value|join(', ') }}{% else %}{{ value }}{% endif %}</td>
                         {% endfor %}
                     </tr>

@@ -3,8 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Form;
-use AppBundle\Entity\Value;
-use AppBundle\Form\FormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,12 +36,7 @@ class AdminController extends Controller
      */
     public function builderAction(Request $request)
     {
-        $disabledFields = array_diff($this->getParameter('available_builder_fields'), $this->getParameter('allowed_types'));
-        $disabledFields = array_merge($this->getParameter('disabled_builder_fields'), $disabledFields);
-
-        return $this->render('default/builder.html.twig', [
-            'disabledFields' => $disabledFields
-        ]);
+        return $this->render('default/builder.html.twig');
     }
 
     /**
@@ -53,12 +46,8 @@ class AdminController extends Controller
      */
     public function builderFormAction(Request $request, Form $formEntity)
     {
-        $disabledFields = array_diff($this->getParameter('available_builder_fields'), $this->getParameter('allowed_types'));
-        $disabledFields = array_merge($this->getParameter('disabled_builder_fields'), $disabledFields);
-
         return $this->render('default/builder.html.twig', [
             'formEntity' => $formEntity,
-            'disabledFields' => $disabledFields
         ]);
     }
 
@@ -73,15 +62,9 @@ class AdminController extends Controller
 
         $values = $em->getRepository('AppBundle:Value')->findValuesByForm($formEntity);
 
-        foreach ($formEntity->getJson() as $json) {
-            $fields['name'][] = $json['name'];
-            $fields['label'][] = $json['label'];
-        }
-
         return $this->render('default/builder-values.html.twig', [
             'formEntity' => $formEntity,
             'values'     => $values,
-            'fields'     => $fields,
         ]);
     }
 
