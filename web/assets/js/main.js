@@ -1,25 +1,11 @@
 function formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disabledFields) {
-    var typeUserAttrs = {
-        // text: {
-        //     className: {
-        //         label: 'Class',
-        //         options: {
-        //             'red form-control': 'Red',
-        //             'green form-control': 'Green',
-        //             'blue form-control': 'Blue'
-        //         },
-        //         style: 'border: 1px solid red'
-        //     }
-        // }
-    };
-
     var disabledAttrs = ['access', 'description', 'toggle', 'inline', 'other', 'step'];
 
     var actionButtons = [];
     if (id && urlShowForm) {
         actionButtons = [{
             id: 'show',
-            className: 'btn btn-default',
+            className: 'btn btn-light',
             label: '<i class="fas fa-eye"></i>',
             type: 'button',
             events: {
@@ -31,9 +17,6 @@ function formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disa
     }
 
     var fbOptions = {
-        // subtypes: {
-        //     text: ['datetime-local']
-        // },
         onSave: function(e, formData) {
             window.sessionStorage.setItem('formData', JSON.stringify(formData));
             saveBuilderForm(formData, id);
@@ -44,7 +27,6 @@ function formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disa
         stickyControls: {
             enable: true
         },
-        typeUserAttrs: typeUserAttrs,
         actionButtons: actionButtons,
         disableFields: disabledFields,
         disabledFieldButtons: {
@@ -56,7 +38,6 @@ function formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disa
         i18n: {
             'locale': 'de-DE'
         },
-        // controlPosition: 'left'
         disabledAttrs
     };
     var formData = window.sessionStorage.getItem('formData');
@@ -68,12 +49,7 @@ function formBuilder(id, formDataEntity, urlShowForm, orderAvailableFields, disa
         fbOptions.formData = formDataEntity;
     }
 
-    var formBuilder = $('.build-wrap').formBuilder(fbOptions);
-    var fbPromise = formBuilder.promise;
-
-    // fbPromise.then(function(fb) {
-    // });
-
+    $('.build-wrap').formBuilder(fbOptions);
 
     bootstrap_alert = function() {};
     bootstrap_alert.success = function(message) {
@@ -94,8 +70,11 @@ function saveBuilderForm(formData, id) {
             id: id
         },
         success: function(data) {
+            console.log(data);
             if (data.success && data.redirect) {
                 window.location.href = data.redirect;
+            } else if (!data.success && data.msg) {
+                bootstrap_alert.warning(data.msg);
             } else {
                 bootstrap_alert.warning('Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut');
             }

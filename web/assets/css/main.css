@@ -50,6 +50,15 @@ body > div {}
     display: block;
 }
 
+.form-wrap.form-builder .prev-holder input[type="file"] {
+    padding-bottom: 40px;
+}
+
+.btn.clear-all,
+.btn.save-template {
+    color: #fff;
+}
+
 #edit-form {
     display: none;
     float: right;

@@ -54,26 +54,25 @@
     </style>
 </head>
 <body>
-<main>
+    <main>
+        <div class="wrapper">
+            {% if error %}
+                <div class="flash-notice alert alert-danger fade show">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
 
-    <div class="wrapper">
-        {% if error %}
-            <div class="flash-notice alert alert-danger fade show">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-            </div>
-        {% endif %}
+            <form class="form-signin"  action="{{ path('login') }}" method="post">
+                <h2 class="form-signin-heading">Bitte Anmelden</h2>
+                <input type="text" class="form-control" placeholder="Benutzername" name="_username" value="{{ last_username }}" />
+                <input type="password" class="form-control" placeholder="Passwort" name="_password" />
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
+            </form>
+        </div>
+    </main>
 
-        <form class="form-signin"  action="{{ path('login') }}" method="post">
-            <h2 class="form-signin-heading">Bitte Anmelden</h2>
-            <input type="text" class="form-control" placeholder="Benutzername" name="_username" value="{{ last_username }}" />
-            <input type="password" class="form-control" placeholder="Passwort" name="_password" />
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
-        </form>
-    </div>
-
-</main>
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 </body>
 </html>

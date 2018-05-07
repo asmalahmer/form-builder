@@ -15,12 +15,14 @@
         <nav class="navbar fixed-top navbar-expand-lg navbar-light navbar-dark bg-dark">
             <div class="collapse navbar-collapse container">
                 <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Field Interactive"></a>
-                <ul class="navbar-nav">
-                {% block nav %}
-                    <li class="nav-item {% if app.request.get('_route') == 'admin' %}active{% endif %}"><a class="nav-link" href="{{ path('admin') }}">Alle Formular Builder</a></li>
-                    <li class="nav-item {% if app.request.get('_route') == 'builder' %}active{% endif %}"><a class="nav-link" href="{{ path('builder') }}">Neuer Formular Builder</a></li>
-                {% endblock %}
-                </ul>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <ul class="navbar-nav">
+                    {% block nav %}
+                        <li class="nav-item {% if app.request.get('_route') == 'admin' %}active{% endif %}"><a class="nav-link" href="{{ path('admin') }}">Alle Formular Builder</a></li>
+                        <li class="nav-item {% if app.request.get('_route') == 'builder' %}active{% endif %}"><a class="nav-link" href="{{ path('builder') }}">Neuer Formular Builder</a></li>
+                    {% endblock %}
+                    </ul>
+                {% endif %}
             </div>
         </nav>
         <main class="container">

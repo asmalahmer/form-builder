@@ -82,6 +82,14 @@ class AdminController extends Controller
             $form = $em->getRepository('AppBundle:Form')->findOneBy(['id' => $id]);
         }
 
+        if (empty(json_decode($json))) {
+            return new JsonResponse([
+                'success'   => false,
+                'redirect'  => false,
+                'msg'       => 'Es muss mindestens ein Feldtyp angegeben werden',
+            ]);
+        }
+
         if (empty($form)) {
             $form = new Form();
         }
@@ -122,9 +130,7 @@ class AdminController extends Controller
             $em->remove($form);
             $em->flush();
             $success = true;
-        }
 
-        if ($success) {
             $redirect = $this->generateUrl('admin');
             $this->addFlash(
                 'success',
